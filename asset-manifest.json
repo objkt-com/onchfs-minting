@@ -1,16 +1,13 @@
 {
   "files": {
-    "main.css": "/onchfs-minting/static/css/main.d09bdc35.css",
-    "main.js": "/onchfs-minting/static/js/main.a376514e.js",
-    "static/js/453.1fe810de.chunk.js": "/onchfs-minting/static/js/453.1fe810de.chunk.js",
+    "main.css": "/onchfs-minting/static/css/main.7eee7645.css",
+    "main.js": "/onchfs-minting/static/js/main.2e0d4da0.js",
+    "static/js/453.8ce9a958.chunk.js": "/onchfs-minting/static/js/453.8ce9a958.chunk.js",
     "static/media/MEK-Mono.otf": "/onchfs-minting/static/media/MEK-Mono.d46606aefa22dd53773d.otf",
-    "index.html": "/onchfs-minting/index.html",
-    "main.d09bdc35.css.map": "/onchfs-minting/static/css/main.d09bdc35.css.map",
-    "main.a376514e.js.map": "/onchfs-minting/static/js/main.a376514e.js.map",
-    "453.1fe810de.chunk.js.map": "/onchfs-minting/static/js/453.1fe810de.chunk.js.map"
+    "index.html": "/onchfs-minting/index.html"
   },
   "entrypoints": [
-    "static/css/main.d09bdc35.css",
-    "static/js/main.a376514e.js"
+    "static/css/main.7eee7645.css",
+    "static/js/main.2e0d4da0.js"
   ]
 }
