@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/onchainfs-test/static/css/main.f2419732.css",
-    "main.js": "/onchainfs-test/static/js/main.d8fd82d7.js",
-    "static/js/453.fdd3da13.chunk.js": "/onchainfs-test/static/js/453.fdd3da13.chunk.js",
-    "static/media/MEK-Mono.otf": "/onchainfs-test/static/media/MEK-Mono.d46606aefa22dd53773d.otf",
-    "index.html": "/onchainfs-test/index.html",
-    "main.f2419732.css.map": "/onchainfs-test/static/css/main.f2419732.css.map",
-    "main.d8fd82d7.js.map": "/onchainfs-test/static/js/main.d8fd82d7.js.map",
-    "453.fdd3da13.chunk.js.map": "/onchainfs-test/static/js/453.fdd3da13.chunk.js.map"
+    "main.css": "/onchfs-minting/static/css/main.d09bdc35.css",
+    "main.js": "/onchfs-minting/static/js/main.a376514e.js",
+    "static/js/453.1fe810de.chunk.js": "/onchfs-minting/static/js/453.1fe810de.chunk.js",
+    "static/media/MEK-Mono.otf": "/onchfs-minting/static/media/MEK-Mono.d46606aefa22dd53773d.otf",
+    "index.html": "/onchfs-minting/index.html",
+    "main.d09bdc35.css.map": "/onchfs-minting/static/css/main.d09bdc35.css.map",
+    "main.a376514e.js.map": "/onchfs-minting/static/js/main.a376514e.js.map",
+    "453.1fe810de.chunk.js.map": "/onchfs-minting/static/js/453.1fe810de.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f2419732.css",
-    "static/js/main.d8fd82d7.js"
+    "static/css/main.d09bdc35.css",
+    "static/js/main.a376514e.js"
   ]
 }
