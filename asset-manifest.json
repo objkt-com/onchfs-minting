@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/onchainfs-test/static/css/main.f2419732.css",
+    "main.js": "/onchainfs-test/static/js/main.d8fd82d7.js",
+    "static/js/453.fdd3da13.chunk.js": "/onchainfs-test/static/js/453.fdd3da13.chunk.js",
+    "static/media/MEK-Mono.otf": "/onchainfs-test/static/media/MEK-Mono.d46606aefa22dd53773d.otf",
+    "index.html": "/onchainfs-test/index.html",
+    "main.f2419732.css.map": "/onchainfs-test/static/css/main.f2419732.css.map",
+    "main.d8fd82d7.js.map": "/onchainfs-test/static/js/main.d8fd82d7.js.map",
+    "453.fdd3da13.chunk.js.map": "/onchainfs-test/static/js/453.fdd3da13.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f2419732.css",
+    "static/js/main.d8fd82d7.js"
+  ]
+}
