@@ -1,0 +1,32 @@
+// Precalculated HPACK headers for common media types as Uint8Array
+const hpackEncodedHeadersMap: Record<string, Uint8Array> = {
+  "image/bmp": new Uint8Array([95, 135, 53, 35, 152, 172, 71, 77, 127]),
+  "image/gif": new Uint8Array([95, 135, 53, 35, 152, 172, 76, 105, 127]),
+  "image/jpeg": new Uint8Array([95, 136, 53, 35, 152, 172, 116, 172, 179, 127]),
+  "image/png": new Uint8Array([95, 135, 53, 35, 152, 172, 87, 84, 223]),
+  "image/apng": new Uint8Array([95, 135, 53, 35, 152, 172, 14, 186, 166]),
+  "image/svg+xml": new Uint8Array([95, 139, 53, 35, 152, 172, 35, 188, 223, 239, 205, 52, 127]),
+  "image/webp": new Uint8Array([95, 136, 53, 35, 152, 172, 120, 44, 117, 255]),
+  "video/mp4": new Uint8Array([95, 135, 238, 105, 10, 118, 41, 173, 175]),
+  "video/ogg": new Uint8Array([95, 135, 238, 105, 10, 118, 15, 52, 223]),
+  "video/quicktime": new Uint8Array([95, 139, 238, 105, 10, 118, 59, 90, 98, 117, 73, 169, 47]),
+  "video/webm": new Uint8Array([95, 136, 238, 105, 10, 118, 60, 22, 58, 127]),
+  "model/gltf-binary": new Uint8Array([95, 141, 164, 242, 22, 134, 38, 161, 50, 173, 25, 170, 29, 158, 191]),
+  "model/gltf+json": new Uint8Array([95, 140, 164, 242, 22, 134, 38, 161, 50, 255, 190, 136, 61, 95]),
+  "audio/mpeg": new Uint8Array([95, 135, 29, 178, 24, 236, 83, 89, 102]),
+  "audio/ogg": new Uint8Array([95, 135, 29, 178, 24, 236, 30, 105, 191]),
+  "audio/wav": new Uint8Array([95, 135, 29, 178, 24, 236, 120, 31, 127]),
+  "audio/wave": new Uint8Array([95, 136, 29, 178, 24, 236, 120, 31, 114, 255]),
+  "audio/x-pn-wav": new Uint8Array([95, 139, 29, 178, 24, 236, 121, 90, 186, 150, 240, 62, 255]),
+  "audio/vnd.wave": new Uint8Array([95, 139, 29, 178, 24, 236, 119, 170, 69, 252, 15, 185, 127]),
+  "audio/x-wav": new Uint8Array([95, 137, 29, 178, 24, 236, 121, 91, 192, 251, 255]),
+  "audio/flac": new Uint8Array([95, 135, 29, 178, 24, 236, 75, 64, 201]),
+  "application/pdf": new Uint8Array([95, 139, 29, 117, 208, 98, 13, 38, 61, 76, 87, 36, 191]),
+  "application/zip": new Uint8Array([95, 139, 29, 117, 208, 98, 13, 38, 61, 76, 123, 53, 127]),
+  "application/x-zip-compressed": new Uint8Array([95, 148, 29, 117, 208, 98, 13, 38, 61, 76, 121, 91, 217, 171, 88, 135, 166, 187, 10, 132, 22, 79]),
+  "multipart/x-zip": new Uint8Array([95, 139, 166, 218, 18, 106, 199, 98, 88, 242, 183, 179, 87]),
+  "text/plain": new Uint8Array([95, 135, 73, 124, 165, 138, 232, 25, 170]),
+  "application/json": new Uint8Array([95, 139, 29, 117, 208, 98, 13, 38, 61, 76, 116, 65, 234]),
+};
+
+export default hpackEncodedHeadersMap;

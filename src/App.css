@@ -1,38 +1,701 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: 'MEK-Mono';
+  src: url('/public/MEK-Mono.otf') format('opentype');
 }
 
-.App-logo {
-  height: 40vmin;
+:root {
+  /* Primary Colors */
+  --background-color: #0d0d0d; /* Deep charcoal */
+  --surface-color: #1e1e1e; /* Dark slate */
+  --primary-text-color: #e0e0e0; /* Light grey */
+  --secondary-text-color: #7f7f7f; /* Medium grey */
+  --accent-color-1: #ff4081; /* Neon Pink */
+  --accent-color-2: #00e5ff; /* Neon Cyan */
+  --accent-color-3: #c6ff00; /* Neon Lime */
+  --accent-color-4: #ffab40; /* Neon Orange */
+  --border-color: #333333; /* Dark border */
+  --input-background: #2c2c2c; /* Input field background */
+  
+  /* Muted Accents for Balance */
+  --muted-accent-1: #8e24aa; /* Deep Purple */
+  --muted-accent-2: #00bcd4; /* Teal */
+  --muted-accent-3: #afb42b; /* Olive */
+  --muted-accent-4: #ff6e40; /* Coral */
+  
+  /* Additional Colors */
+  --highlight-color: #ffffff; /* Pure White for highlights */
+}
+
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  font-family: 'MEK-Mono', monospace;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  max-width: 1400px; /* Expanded for gallery display */
+  margin: 0 auto;
+  padding: 60px 30px;
+  position: relative;
+  z-index: 1;
+  background-color: var(--background-color);
+}
+
+/* Headings */
+h1, h2, h3 {
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transform: skew(-5deg);
+}
+
+h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1.8rem;
+  color: var(--accent-color-1);
+  text-shadow: 3px 3px var(--accent-color-2), 6px 6px var(--accent-color-4);
+  position: relative;
+  z-index: 1;
+}
+
+h1::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  color: var(--accent-color-3);
+  z-index: -1;
+  opacity: 0.7;
+}
+
+/* Buttons */
+button {
+  background-color: var(--accent-color-1);
+  border: 2px solid var(--accent-color-1);
+  color: var(--background-color);
+  padding: 14px 28px;
+  font-family: 'MEK-Mono', monospace;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  transform: skew(-5deg);
+  border-radius: 4px;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button:hover::before {
+  opacity: 1;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+button:hover {
+  background-color: var(--accent-color-2);
+  border-color: var(--accent-color-2);
+  transform: skew(-5deg) scale(1.05);
+}
+
+button:disabled {
+  border-color: var(--secondary-text-color);
+  color: var(--secondary-text-color);
+  background-color: var(--input-background);
+  cursor: not-allowed;
+}
+
+/* Wallet Info */
+.wallet-info {
+  margin-bottom: 30px;
+  padding: 25px 20px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--accent-color-4);
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+  backdrop-filter: blur(2px);
+}
+
+.wallet-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+/* Main Content */
+.main-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+}
+
+.collection-list {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.collection-item {
+  background-color: var(--surface-color);
+  border: 1px solid var(--accent-color-1);
+  padding: 25px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.collection-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.07);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 10px;
+}
+
+.collection-item:hover::before {
+  opacity: 0.15;
+}
+
+.collection-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(255, 64, 129, 0.4); /* Matching accent color */
+}
+
+.collection-logo {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  margin-bottom: 20px;
+  filter: grayscale(60%) contrast(130%) brightness(85%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  border-radius: 6px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+}
+
+.collection-item:hover .collection-logo {
+  filter: grayscale(0%) contrast(100%) brightness(100%);
+  transform: scale(1.02);
+}
+
+.collection-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  position: relative;
+  z-index: 1;
 }
 
-.App-link {
-  color: #61dafb;
+.collection-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--accent-color-2);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: subtle-glow 4s infinite alternate;
 }
 
-@keyframes App-logo-spin {
+@keyframes subtle-glow {
   from {
-    transform: rotate(0deg);
+    text-shadow: 0 0 5px var(--accent-color-2), 0 0 10px var(--accent-color-2);
   }
   to {
-    transform: rotate(360deg);
+    text-shadow: 0 0 15px var(--accent-color-1), 0 0 25px var(--accent-color-1);
   }
+}
+
+.collection-contract {
+  font-size: 14px;
+  color: var(--secondary-text-color);
+  margin-bottom: 20px;
+}
+
+/* Loading and Wallet Connection Message */
+.loading,
+.wallet-connection-message {
+  font-size: 20px;
+  color: var(--secondary-text-color);
+  margin-top: 25px;
+  padding: 25px 20px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+/* Error Message */
+.error-message {
+  color: var(--accent-color-4);
+  font-weight: bold;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(255, 104, 144, 0.1); /* Matching accent color */
+  border: 1px solid var(--accent-color-4);
+  border-radius: 6px;
+}
+
+/* Minting Process */
+.minting-process {
+  background-color: var(--surface-color);
+  padding: 35px 25px;
+  border: 1px solid var(--accent-color-3);
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+.minting-process::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(198, 255, 0, 0.03); /* Subtle overlay */
+  pointer-events: none;
+}
+
+.minting-process form {
+  display: grid;
+  gap: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.minting-process label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: var(--accent-color-3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.minting-process input[type="text"],
+.minting-process input[type="number"],
+.minting-process textarea {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--input-background);
+  border: 1px solid var(--accent-color-2);
+  color: var(--primary-text-color);
+  font-family: 'MEK-Mono', monospace;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 4px;
+}
+
+.minting-process input[type="text"]:focus,
+.minting-process input[type="number"]:focus,
+.minting-process textarea:focus {
+  border-color: var(--accent-color-3);
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 255, 0, 0.3);
+}
+
+.minting-process textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.minting-process input[type="file"] {
+  margin-top: 8px;
+  color: var(--secondary-text-color);
+}
+
+.minting-process progress {
+  width: 100%;
+  height: 4px;
+  margin-top: 25px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.minting-process progress::-webkit-progress-bar {
+  background-color: var(--border-color);
+  border-radius: 2px;
+}
+
+.minting-process progress::-webkit-progress-value {
+  background-color: var(--accent-color-2);
+  border-radius: 2px;
+}
+
+.minting-progress {
+  margin-top: 35px;
+}
+
+/* Back Button & Selected Collection */
+.back-button {
+  margin-bottom: 20px;
+}
+
+.selected-collection {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px 15px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--accent-color-3);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.selected-collection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(198, 255, 0, 0.05); /* Subtle overlay */
+  pointer-events: none;
+}
+
+.selected-collection h3 {
+  margin: 0;
+  margin-right: 15px;
+  color: var(--accent-color-3);
+}
+
+.selected-collection .collection-logo {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 0;
+  border-radius: 4px;
+}
+
+/* Attributes Editor */
+.attributes-editor {
+  background-color: var(--surface-color);
+  border: 1px solid var(--accent-color-1);
+  padding: 20px 15px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.attributes-editor::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 64, 129, 0.03); /* Subtle overlay */
+  pointer-events: none;
+}
+
+.attributes-list {
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.attribute-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: var(--input-background);
+  transition: transform 0.2s ease;
+  border-radius: 4px;
+}
+
+.attribute-item:hover {
+  transform: translateX(5px);
+}
+
+.attribute-name {
+  font-weight: bold;
+  margin-right: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-color-2);
+}
+
+.attribute-value {
+  flex-grow: 1;
+  color: var(--primary-text-color);
+}
+
+.remove-attribute {
+  padding: 6px 12px;
+  font-size: 12px;
+  margin-left: 10px;
+  background-color: var(--accent-color-4);
+  color: var(--primary-text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-attribute:hover {
+  background-color: var(--accent-color-1);
+}
+
+.add-attribute {
+  display: flex;
+  gap: 10px;
+}
+
+.add-attribute input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid var(--accent-color-2);
+  border-radius: 4px;
+  background-color: var(--input-background);
+  color: var(--primary-text-color);
+  font-family: 'MEK-Mono', monospace;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-attribute input:focus {
+  border-color: var(--accent-color-3);
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 255, 0, 0.3);
+}
+
+/* Warning Message */
+.warning {
+  background-color: rgba(255, 255, 0, 0.1);
+  border: 1px solid var(--accent-color-3);
+  color: var(--accent-color-3);
+  padding: 15px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.warning::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 104, 144, 0.05); /* Subtle overlay */
+  pointer-events: none;
+}
+
+/* Berlin-Inspired Concrete Texture */
+.App::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.02' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Tokyo-Inspired Neon Glow */
+@keyframes neon-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px var(--accent-color-1), 0 0 10px var(--accent-color-1), 0 0 15px var(--accent-color-1), 0 0 20px var(--accent-color-1);
+  }
+  50% {
+    text-shadow: 0 0 10px var(--accent-color-2), 0 0 20px var(--accent-color-2), 0 0 30px var(--accent-color-2), 0 0 40px var(--accent-color-2);
+  }
+}
+
+.collection-name {
+  animation: subtle-glow 4s infinite alternate;
+}
+
+/* Avant-Garde Geometric Shapes */
+.geometric-shape {
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  opacity: 0.04; /* More subdued */
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(2px);
+}
+
+.geometric-shape:nth-child(1) {
+  top: 15%;
+  left: 10%;
+  background-color: var(--muted-accent-1);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+.geometric-shape:nth-child(2) {
+  bottom: 20%;
+  right: 15%;
+  background-color: var(--muted-accent-2);
+  clip-path: circle(50% at 50% 50%);
+}
+
+.geometric-shape:nth-child(3) {
+  top: 50%;
+  right: 25%;
+  background-color: var(--muted-accent-3);
+  clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+}
+
+/* Optional: Hide geometric shapes on very small screens to enhance readability */
+@media (max-width: 480px) {
+  .geometric-shape {
+    display: none;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-color-2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color-1);
+}
+
+/* Network Selector */
+.network-selector {
+  margin-bottom: 15px;
+  padding: 12px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--accent-color-2);
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.network-selector label {
+  margin-right: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-color-2);
+}
+
+.network-selector select {
+  background-color: var(--input-background);
+  color: var(--primary-text-color);
+  border: 1px solid var(--accent-color-2);
+  padding: 8px 12px;
+  font-family: 'MEK-Mono', monospace;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--accent-color-2) 50%),
+                    linear-gradient(135deg, var(--accent-color-2) 50%, transparent 50%);
+  background-position: calc(100% - 15px) calc(1em + 2px), calc(100% - 10px) calc(1em + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+}
+
+.network-selector select:focus {
+  outline: none;
+  border-color: var(--accent-color-3);
+  box-shadow: 0 0 8px rgba(255, 255, 0, 0.3);
+}
+
+/* Warning Message */
+.warning {
+  background-color: rgba(255, 255, 0, 0.1);
+  border: 1px solid var(--accent-color-3);
+  color: var(--accent-color-3);
+  padding: 15px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+}
+
+.warning::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 104, 144, 0.05); /* Subtle overlay */
+  pointer-events: none;
+}
+
+/* Additional Refinements */
+.App::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--accent-color-1), var(--accent-color-2), var(--accent-color-3), var(--accent-color-4));
+  z-index: 1000;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--secondary-text-color);
+  opacity: 0.6;
 }
