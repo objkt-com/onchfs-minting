@@ -237,6 +237,7 @@ const MintingProcess: React.FC<MintingProcessProps> = ({ tezos, userAddress, sel
       name: stringToBytes(metadata.name),
       description: stringToBytes(metadata.description),
       artifactUri: stringToBytes(artifactUri),
+      creators: stringToBytes(`["${userAddress}"]`),
       royalties: stringToBytes(JSON.stringify({
         decimals: 4,
         shares: { [userAddress]: metadata.royalties * 100 }
@@ -354,7 +355,7 @@ const MintingProcess: React.FC<MintingProcessProps> = ({ tezos, userAddress, sel
         tags: nftConfig.tags.split(',').map(tag => tag.trim()),
         attributes: nftConfig.attributes,
         license: nftConfig.license,
-        formats: [{ uri: artifactUri, mimeType: file.type }]
+        formats: [{ uri: artifactUri, mimeType: file.type }],
       };
       console.log(file.type)
 

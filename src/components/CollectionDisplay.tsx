@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TezosToolkit } from '@taquito/taquito';
+import { stringToBytes } from '@taquito/utils';
 import axios from 'axios';
 import { NetworkConfig } from '../networkConfig';
 
@@ -13,10 +14,17 @@ interface CollectionDisplayProps {
   config: NetworkConfig;
 }
 
+interface Token {
+  token_id: number;
+  fa_contract: string;
+  creators?: string[];
+}
+
 interface Collection {
   contract: string;
   name: string;
   logo: string;
+  tokens: Token[];
 }
 
 const CollectionDisplay: React.FC<CollectionDisplayProps> = ({ userAddress, tezos, onSelectCollection, network, config }) => {
@@ -36,13 +44,25 @@ const CollectionDisplay: React.FC<CollectionDisplayProps> = ({ userAddress, tezo
                 contract
                 name
                 logo
+                tokens(where: {artifact_uri: {_like: "onchfs://%"}}) {
+                  token_id
+                  fa_contract 
+                  creators {
+                        creator_address
+                    }
+                }
               }
             }
           `,
           variables: { address: userAddress },
         });
 
-        setCollections(response.data.data.fa);
+        const collectionsWithFilteredTokens = response.data.data.fa.map((collection: Collection) => ({
+          ...collection,
+          tokens: collection.tokens.filter((token: Token) => !token.creators || token.creators.length === 0),
+        }));
+
+        setCollections(collectionsWithFilteredTokens);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching collections:', error);
@@ -64,6 +84,41 @@ const CollectionDisplay: React.FC<CollectionDisplayProps> = ({ userAddress, tezo
         : `https://assets.ghostnet.objkt.media/file/assets-ghostnet/${cid}/thumb400`;
     }
     return logo;
+  };
+
+  const fixTokenMetadata = async (token_id: number, fa_contract: string) => {
+    if (!tezos || !userAddress) {
+      throw new Error('Tezos is not initialized or user address is missing');
+    }
+
+    try {
+      const nftContract = await tezos.wallet.at(fa_contract);
+      const tokenMetadataStorage = await nftContract.storage() as any;
+      const tokenMetadataBigMap = tokenMetadataStorage.token_metadata;
+      
+      // Get the token metadata from the bigMap
+      const tokenMetadata = await tokenMetadataBigMap.get(token_id);
+      let existingTokenInfo: { [key: string]: string } = {};
+      tokenMetadata.token_info.forEach((v: string, k: string) => {
+        existingTokenInfo[k] = v;
+      });
+
+      const updatedTokenInfo = {
+        ...existingTokenInfo,
+        creators: stringToBytes(`["${userAddress}"]`),
+      };
+
+      const op = await nftContract.methodsObject.update_token_metadata([{
+        token_id,
+        token_info: updatedTokenInfo,
+      }]).send();
+
+      await op.confirmation(1);
+      alert(`Token metadata fixed successfully! Operation hash: ${op.opHash}`);
+    } catch (error) {
+      console.error('Error fixing token metadata:', error);
+      alert('An error occurred while fixing token metadata. Please try again later.');
+    }
   };
 
   if (loading) {
@@ -91,6 +146,21 @@ const CollectionDisplay: React.FC<CollectionDisplayProps> = ({ userAddress, tezo
                   Select Collection
                 </button>
               </div>
+              {collection.tokens.length > 0 && (
+                <div className="tokens-with-missing-creators">
+                  <h3>Tokens with Missing Creators</h3>
+                  <ul>
+                    {collection.tokens.map((token) => (
+                      <li key={token.token_id}>
+                        Token ID: {token.token_id}, FA Contract: {token.fa_contract}
+                        <button onClick={() => fixTokenMetadata(token.token_id, token.fa_contract)}>
+                          Fix Metadata
+                        </button>
+                      </li>
+                    ))}
+                  </ul>  
+                </div>
+              )}
             </li>
           ))}
         </ul>
