@@ -4,6 +4,7 @@ import { BeaconWallet } from '@taquito/beacon-wallet';
 import WalletConnection from './components/WalletConnection';
 import CollectionDisplay from './components/CollectionDisplay';
 import MintingProcess from './components/MintingProcess';
+import LatestOnChainArt from './components/LatestOnChainArt';
 import config from './networkConfig';
 import './App.css';
 
@@ -67,60 +68,84 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>onchfs objkt minting prototype</h1>
-      <div className="network-selector">
-        <label htmlFor="network-select">Network: </label>
-        <select id="network-select" value={network} onChange={handleNetworkChange}>
-        <option value="mainnet">Mainnet</option>
-          <option value="ghostnet">Ghostnet</option>
-        </select>
-      </div>
-      <div className="wallet-info">
-        <WalletConnection
-          wallet={wallet}
-          setWallet={setWallet}
-          userAddress={userAddress}
-          setUserAddress={setUserAddress}
-          setupTezos={setupTezos}
-          network={network}
-          error={error}
-          setError={setError}
-        />
-      </div>
-      {loading ? (
-        <p>Loading Tezos toolkit...</p>
-      ) : userAddress && tezos ? (
-        <div className="main-content">
-          {selectedCollection ? (
-            <div className="minting-container">
-              <MintingProcess 
-                userAddress={userAddress} 
-                tezos={tezos} 
-                selectedCollection={selectedCollection}
-                collectionLogo={collectionLogo}
-                network={network}
-                config={config[network]}
-              />
-              <button onClick={() => {
-                setSelectedCollection(null);
-                setCollectionLogo(null);
-              }}>Back to Collections</button>
-            </div>
-          ) : (
-            <div className="collections-container">
-              <h2>Select a Collection</h2>
-              <CollectionDisplay 
-                userAddress={userAddress} 
-                tezos={tezos} 
-                onSelectCollection={handleCollectionSelect}
-                network={network}
-                config={config[network]}
-              />
-            </div>
-          )}
+      <pre className="ascii-header">
+{`     _     _ _   _                  _   ___                    _       _               
+ ___| |_  |_| |_| |_    ___ ___ ___| |_|  _|___    ___ ___ ___| |_ ___| |_ _ _ ___ ___ 
+| . | . | | | '_|  _|  | . |   |  _|   |  _|_ -|  | . |  _| . |  _| . |  _| | | . | -_|
+|___|___|_| |_,_|_|    |___|_|_|___|_|_|_| |___|  |  _|_| |___|_| |___|_| |_  |  _|___|
+        |___|                                     |_|                     |___|_|      
+`}
+      </pre>
+      <div className="console-container">
+        <div className="console-line">
+          <span className="prompt">$</span> Network:
+          <select className="console-select" value={network} onChange={handleNetworkChange}>
+            <option value="mainnet">Mainnet</option>
+            <option value="ghostnet">Ghostnet</option>
+          </select>
         </div>
-      ) : (
-        <p>Please connect your wallet to start minting and viewing collections.</p>
+        <div className="console-line">
+          <span className="prompt">$</span> Wallet:
+          <WalletConnection
+            wallet={wallet}
+            setWallet={setWallet}
+            userAddress={userAddress}
+            setUserAddress={setUserAddress}
+            setupTezos={setupTezos}
+            network={network}
+            error={error}
+            setError={setError}
+          />
+        </div>
+        {loading ? (
+          <div className="console-line">
+            <span className="prompt">$</span> Loading Tezos toolkit...
+          </div>
+        ) : userAddress && tezos ? (
+          <div className="console-content">
+            {selectedCollection ? (
+              <div className="minting-container">
+                <MintingProcess 
+                  userAddress={userAddress} 
+                  tezos={tezos} 
+                  selectedCollection={selectedCollection}
+                  collectionLogo={collectionLogo}
+                  network={network}
+                  config={config[network]}
+                />
+                <button className="console-button" onClick={() => {
+                  setSelectedCollection(null);
+                  setCollectionLogo(null);
+                }}>Back to Collections</button>
+              </div>
+            ) : (
+              <div className="collections-container">
+                <div className="console-line">
+                  <span className="prompt">$</span> Select a Collection:
+                </div>
+                <CollectionDisplay 
+                  userAddress={userAddress} 
+                  tezos={tezos} 
+                  onSelectCollection={handleCollectionSelect}
+                  network={network}
+                  config={config[network]}
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="console-line">
+            <span className="prompt">$</span> Please connect your wallet to start minting and viewing collections.
+          </div>
+        )}
+      </div>
+      {!selectedCollection && (
+        <div className="latest-art-container">
+          <div className="console-line">
+            <span className="prompt">$</span> Latest On-Chain Art on objkt:
+          </div>
+          <LatestOnChainArt networkType={network} />
+        </div>
       )}
     </div>
   );
